@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <caption>购物车</caption>
+                    <tr class="text-center">
+                        <th class="text-center">商品名称</th>
+                        <th class="text-center">商品价格</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    <tr class="text-center" v-for="iphone in iphones">
+                        <td>{{iphone.name}}</td>
+                        <td>{{iphone.price}}</td>
+                        <td>
+                            <button class="btn btn-danger btn-xs" @click="removeOne(iphone)">删除</button>
+                        </td>
+                    </tr>
+                    <tr v-show="iphones.length">
+                        <td colspan="3">
+                            <button class="btn btn-danger pull-right" @click="removeAll()">删除全部</button>
+                        </td>
+                    </tr>
+                </table>
+                <form class="form">
+                    <div class="form-group">
+                        <label for="productName" class="control-label">商品名称</label>
+                        <input type="text" id="productName" class="form-control" v-model="name" placeholder="请输入商品名称">
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice" class="control-label">商品价格</label>
+                        <input type="text" id="productPrice" class="form-control" v-model="price" placeholder="请输入商品价格">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-info" @click="add">添加</button>
+                        <button type="reset" class="btn btn-warning">重置</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="lib/vue2.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            name: '',
+            price: '',
+            iphones: [{name: 'iphone5', price: 2800}, {name: 'iphone6', price: 4800}, {name: 'iphone7', price: 6800}]
+        },
+        methods: {
+            removeOne(product){
+        // 返回false就不要了
+        this.iphones = this.iphones.filter(item => {
+            return item != product;
+        })
+    },
+    removeAll(){
+        this.iphones = [];
+    },
+    add(){
+        this.iphones.push({name: this.name, price: this.price});
+        this.name = this.price = ''
+    }
+    }
+    })
+</script>
+</body>
+</html>
